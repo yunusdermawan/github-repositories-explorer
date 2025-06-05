@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-interface SearchBarProps {
+export interface SearchBarProps {
   onSearch: (query: string) => void;
   loading: boolean;
 }
@@ -13,8 +13,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, loading }) => {
   };
 
   const handleSearch = () => {
-    if (!input.trim()) return; // Optionally, you could add UI feedback here
-    onSearch(input.trim());
+    const trimmedQuery = input.trim();
+    if (trimmedQuery) {
+      onSearch(trimmedQuery);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -24,15 +26,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, loading }) => {
   };
 
   return (
-    <div className="search-bar">
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
       <input
         type="text"
         placeholder="Search GitHub users..."
         value={input}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <button onClick={handleSearch} disabled={loading}>
+      <button
+        onClick={handleSearch}
+        disabled={loading}
+        className="px-4 py-2 bg-blue-500 text-white font-medium rounded hover:bg-blue-600 disabled:opacity-50"
+      >
         {loading ? "Searching..." : "Search"}
       </button>
     </div>

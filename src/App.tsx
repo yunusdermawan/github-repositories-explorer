@@ -1,4 +1,3 @@
-// App.tsx
 import React, { useState } from "react";
 import axios from "axios";
 import SearchBar from "./components/SearchBar";
@@ -16,7 +15,7 @@ const App: React.FC = () => {
   const searchUsers = async (query: string) => {
     setLoadingUsers(true);
     setUserError(null);
-    setRepos([]); // clear previous repos on a new search
+    setRepos([]); // Clear previous repos on a new search
     try {
       const response = await axios.get(
         `https://api.github.com/search/users?q=${query}&per_page=5`
@@ -45,28 +44,49 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl text-blue-600 font-bold">GitHub Search Explorer</h1>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <header className="bg-blue-500 text-white py-6 shadow">
+        <h1 className="text-center text-3xl font-bold">
+          GitHub Search Explorer
+        </h1>
       </header>
-      <SearchBar onSearch={searchUsers} loading={loadingUsers} />
-      <div className="flex flex-col sm:flex-row gap-4 mt-6">
-        <div className="sm:w-1/3">
-          <UserList
-            users={users}
-            loading={loadingUsers}
-            error={userError}
-            onUserClick={loadUserRepos}
-          />
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        <SearchBar onSearch={searchUsers} loading={loadingUsers} />
+
+        <div className="mt-8 flex flex-col md:flex-row gap-6">
+          {/* Left Panel: User List */}
+          <section className="md:w-1/3">
+            <div className="bg-white rounded shadow p-4">
+              <h2 className="text-xl font-semibold mb-4">Users</h2>
+              <UserList
+                users={users}
+                loading={loadingUsers}
+                error={userError}
+                onUserClick={loadUserRepos}
+              />
+            </div>
+          </section>
+          {/* Right Panel: Repo List */}
+          <section className="md:w-2/3">
+            <div className="bg-white rounded shadow p-4">
+              <h2 className="text-xl font-semibold mb-4">Repositories</h2>
+              <RepoList
+                repos={repos}
+                loading={loadingRepos}
+                error={repoError}
+              />
+            </div>
+          </section>
         </div>
-        <div className="sm:w-2/3">
-          <RepoList
-            repos={repos}
-            loading={loadingRepos}
-            error={repoError}
-          />
-        </div>
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="text-center py-4 text-gray-600">
+        &copy; {new Date().getFullYear()} GitHub Explorer. All Rights Reserved.
+      </footer>
     </div>
   );
 };

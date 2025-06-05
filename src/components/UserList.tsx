@@ -6,38 +6,42 @@ export interface GitHubUser {
   avatar_url: string;
 }
 
-interface UserListProps {
+export interface UserListProps {
   users: GitHubUser[];
   onUserClick: (username: string) => void;
   loading: boolean;
   error: string | null;
 }
 
-const UserList: React.FC<UserListProps> = ({ users, onUserClick, loading, error }) => {
+const UserList: React.FC<UserListProps> = ({
+  users,
+  onUserClick,
+  loading,
+  error,
+}) => {
   if (loading) {
-    return <p>Loading users...</p>;
+    return <p className="text-center">Loading users...</p>;
   }
-
   if (error) {
-    return <p>Error: {error}</p>;
+    return <p className="text-center text-red-500">Error: {error}</p>;
   }
-  
   if (users.length === 0) {
-    return <p>No users found. Try a different search.</p>;
+    return <p className="text-center">No users found. Try a different search.</p>;
   }
-
   return (
-    <ul className="user-list">
+    <ul>
       {users.map((user) => (
-        <li key={user.id} onClick={() => onUserClick(user.login)} style={{ cursor: "pointer", padding: "5px" }}>
+        <li
+          key={user.id}
+          onClick={() => onUserClick(user.login)}
+          className="flex items-center space-x-4 p-2 border-b border-gray-200 cursor-pointer hover:bg-gray-50"
+        >
           <img
             src={user.avatar_url}
-            alt={user.login}
-            width={30}
-            height={30}
-            style={{ borderRadius: "50%", marginRight: "8px" }}
+            alt={`${user.login}'s avatar`}
+            className="w-10 h-10 rounded-full"
           />
-          {user.login}
+          <span className="text-lg">{user.login}</span>
         </li>
       ))}
     </ul>
