@@ -1,54 +1,157 @@
-# React + TypeScript + Vite
+```markdown
+# GitHub Search Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive React and TypeScript application using Tailwind CSS that allows you to search GitHub users and view their repositories in a dropdown. This project uses Jest and React Testing Library for unit and integration tests.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Overview](#overview)
+- [Features](#features)
+- [File Structure](#file-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Testing](#testing)
+- [Jest Configuration](#jest-configuration)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+GitHub Search Explorer is a simple, responsive tool built with React, TypeScript, and Tailwind CSS. It enables you to:
+- Search for GitHub users using the GitHub API.
+- Display a list of found users.
+- Expand a user to see a dropdown of the user's repositories.
+- Enjoy both a mobile-first design and a centered layout on larger devices.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Features
+
+- **Responsive Design:**  
+  Uses Tailwind CSS to deliver a mobile-first experience that centers content on larger devices.
+- **User Search:**  
+  Search GitHub users with a user-friendly input form.
+- **Repository Dropdown:**  
+  Toggle a dropdown beneath a user to fetch and show the user's repositories.
+- **Unit & Integration Testing:**  
+  Tested using Jest and React Testing Library.
+
+## File Structure
+
+A sample file structure for the project is below:
+
+```
+my-github-search-app/
+├── node_modules/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── components/
+│   │   ├── SearchBar.tsx         // Search input & button
+│   │   ├── UserList.tsx          // Displays a list of users and toggles repo dropdown
+│   │   └── RepoList.tsx          // Fetches and lists repositories for a given username
+│   ├── __tests__/                // Unit and integration tests
+│   │   ├── SearchBar.test.tsx
+│   │   ├── UserList.test.tsx
+│   │   ├── RepoList.test.tsx
+│   │   └── App.test.tsx
+│   ├── App.css                  // CSS styles for main application
+│   ├── App.tsx                  // Main application component
+│   ├── main.tsx                 // Application entry point
+│   ├── index.css                // Global styles (includes Tailwind CSS directives)
+│   ├── App.tsx                  // Main application component
+│   ├── setupTests.ts            
+│   └── vite-env.d.ts             
+├── package.json
+├── tsconfig.json
+├── tsconfig.app.json            // App-specific TS config (if using project references)
+├── tsconfig.node.json           // Node-specific TS config (if needed)
+├── tailwind.config.js           // Tailwind configuration
+├── jest.config.js               // Jest configuration file
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Clone the repository:**
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+   ```bash
+   git clone https://github.com/yourusername/my-github-search-app.git
+   cd my-github-search-app
+   ```
+
+2. **Install dependencies:**
+
+   Using npm:
+   ```bash
+   npm install
+   ```
+   Or using Yarn:
+   ```bash
+   yarn install
+   ```
+
+## Usage
+
+1. **Run the development server:**
+
+   Using npm:
+   ```bash
+   npm start
+   ```
+   Or using Yarn:
+   ```bash
+   yarn start
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
+
+2. **Build for production:**
+
+   Using npm:
+   ```bash
+   npm run build
+   ```
+   Or using Yarn:
+   ```bash
+   yarn build
+   ```
+
+## Testing
+
+This project uses Jest and React Testing Library for testing.
+
+1. **Run tests:**
+
+   Using npm:
+   ```bash
+   npm test
+   ```
+   Or using Yarn:
+   ```bash
+   yarn test
+   ```
+
+2. **Test Coverage:**
+
+   To generate a coverage report:
+   ```bash
+   npm run test:coverage
+   ```
+   (Add the corresponding script in your `package.json` if needed.)
+
+## Jest Configuration
+
+Your Jest configuration is handled in the file `jest.config.js` (or `jest.config.cjs`) and `src/setupTests.ts` ensures that custom matchers from `@testing-library/jest-dom` are loaded. Key configurations include:
+- **Test Environment:** Uses jsdom via `jest-environment-jsdom` (make sure it is installed).
+- **Transform:** Uses `ts-jest` for handling `.ts` and `.tsx` files.
+- **Setup Files:** References `src/setupTests.ts` which includes:
+  
+  ```ts
+  // src/setupTests.ts
+  import '@testing-library/jest-dom';
+  ```
+  
+- **Type Declarations:** Ensure your `tsconfig.json` includes `"types": ["jest", "@testing-library/jest-dom", "node"]`.
+
+## License
+
+[MIT](LICENSE)
