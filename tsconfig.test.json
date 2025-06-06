@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+      // ...other settings
+      "types": ["jest", "@testing-library/jest-dom", "node"]
+    },
+    "include": ["src"]
+  }
+  
